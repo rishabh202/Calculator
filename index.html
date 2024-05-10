@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Calculator</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="apple-touch-icon" sizes="57x57" href="./favicons/apple-icon-57x57.png" />
+    <link rel="apple-touch-icon" sizes="60x60" href="./favicons/apple-icon-60x60.png" />
+    <link rel="apple-touch-icon" sizes="72x72" href="./favicons/apple-icon-72x72.png" />
+    <link rel="apple-touch-icon" sizes="76x76" href="./favicons/apple-icon-76x76.png" />
+    <link
+      rel="apple-touch-icon"
+      sizes="114x114"
+      href="./favicons/apple-icon-114x114.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="120x120"
+      href="./favicons/apple-icon-120x120.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="144x144"
+      href="./favicons/apple-icon-144x144.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="152x152"
+      href="./favicons/apple-icon-152x152.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="./favicons/apple-icon-180x180.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="./favicons/android-icon-192x192.png"
+    />
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicons/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="96x96" href="./favicons/favicon-96x96.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicons/favicon-16x16.png" />
+    <link rel="manifest" href="./favicons/manifest.json" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
+    <meta name="theme-color" content="#ffffff" />
+
+  </head>
+  <body>
+    <div class="container">
+        <div>
+            <input type="text" placeholder="0" id="screen" readonly>
+        </div> <br>
+        <div class="calculator">
+            <button class="color2" onclick="clearScreen()">Clr</button>
+            <button class="color2" onclick="del()">del</button>
+            <button class="color2" onclick="appendToScreen('%')">%</button>
+            <button class="color1" onclick="appendToScreen('/')">/</button>
+            <button onclick="appendToScreen('7')">7</button>
+            <button onclick="appendToScreen('8')">8</button>
+            <button onclick="appendToScreen('9')">9</button>
+            <button class="color1" onclick="appendToScreen('*')">*</button>
+            <button onclick="appendToScreen('4')">4</button>
+            <button onclick="appendToScreen('5')">5</button>
+            <button onclick="appendToScreen('6')">6</button>
+            <button class="color1" onclick="appendToScreen('−')">-</button>
+            <button onclick="appendToScreen('1')">1</button>
+            <button onclick="appendToScreen('2')">2</button>
+            <button onclick="appendToScreen('3')">3</button>
+            <button class="color1" onclick="appendToScreen('+')">+</button>
+            <button onclick="appendToScreen('00')">00</button>
+            <button onclick="appendToScreen('0')">0</button>
+            <button onclick="appendToScreen('.')">.</button>
+            <button class="color1" onclick="calculate()">=</button>
+          
+        </div>
+    </div>
+    <script>
+let outputScreen = document.getElementById("screen");
+
+function appendToScreen(value) {
+    outputScreen.value += value;
+}
+
+function clearScreen() {
+    outputScreen.value = "";
+}
+
+function del(){
+  outputScreen.value = outputScreen.value.slice(0, -1);
+}
+
+function calculate() {
+    let expression = outputScreen.value;
+    let result;
+    try {
+        result = calExpression(expression);
+        outputScreen.value = result;
+    } catch(err) {
+        alert("Invalid expression");
+    }
+}
+
+function calExpression(expression) {
+    let tokens = expression.split(/(\+|\-|\*|\/)/);
+    let numbers = [];
+    let operators = [];
+
+    for (let token of tokens) {
+        if (token === "+" || token === "-" || token === "*" || token === "/") {
+            operators.push(token);
+        } else {
+            numbers.push(parseFloat(token));
+        }
+    }
+
+    let result = numbers[0];
+    for (let i = 0; i < operators.length; i++) {
+        let operator = operators[i];
+        let nextNumber = numbers[i + 1];
+
+        if (operator === "+") {
+            result += nextNumber;
+        } else if (operator === "-") {
+            result -= nextNumber;
+        } else if (operator === "*") {
+            result *= nextNumber;
+        } else if (operator === "/") {
+            result /= nextNumber;
+        }
+    }
+
+    return result;
+}
+
+    </script>
+  </body>
+</html>
